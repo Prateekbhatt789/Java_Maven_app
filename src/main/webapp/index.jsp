@@ -2,22 +2,52 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>Latest News</title>
+    <title>Speed Checker</title>
 </head>
 <body>
-    <h1>Top News from India</h1>
-    <%
-        JsonArray articles = (JsonArray) request.getAttribute("articles");
-        for (int i = 0; i < articles.size(); i++) {
-            JsonObject article = articles.get(i).getAsJsonObject();
-    %>
-        <div style="border-bottom: 1px solid #ccc; margin-bottom: 10px;">
-            <h2><%= article.get("title").getAsString() %></h2>
-            <p><%= article.get("description").getAsString() %></p>
-            <a href="<%= article.get("url").getAsString() %>" target="_blank">Read more</a>
-        </div>
-    <%
-        }
-    %>
+    <h1>Check your Word Speed</h1>
+    
+    <label for="textInput">Text to type:</label>
+    <p>The quick brown fox jumps over the lazy dog.</p>
+    
+    <form action="${pageContext.request.contextPath}/YourServletURL" method="post">
+        <textarea id="textInput" name="typedText" rows="4" cols="50" placeholder="Type the text here..." required></textarea>
+        <br>
+        <input type="submit" value="Check WPM">
+    </form>
+    
+    <h2 id="wpmResult">
+        <% 
+            String wpm = (String) request.getAttribute("wpm");
+            if (wpm != null) {
+                out.println("Your WPM: " + wpm);
+            } else {
+                out.println("Your WPM: 0");
+            }
+        %>
+    </h2>
+    <script>
+        let startTime;
+        const textarea = document.getElementById("textInput");
+    
+        textarea.addEventListener("keydown", () => {
+            if (!startTime) {
+                startTime = new Date().getTime();
+            }
+        });
+    
+        document.querySelector("form").addEventListener("submit", function (e) {
+            const endTime = new Date().getTime();
+            const typingTimeInSeconds = (endTime - startTime) / 1000;
+    
+            const typingTimeField = document.createElement("input");
+            typingTimeField.type = "hidden";
+            typingTimeField.name = "typingTime";
+            typingTimeField.value = typingTimeInSeconds;
+            this.appendChild(typingTimeField);
+        });
+    </script>
+    
+    
 </body>
 </html>
