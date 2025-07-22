@@ -1,0 +1,2 @@
+docker build -t java-web-app .
+docker run -p 8080:8080 java-web-app
