@@ -22,6 +22,13 @@ public class WPMCalculatorServlet extends HttpServlet {
 
     try {
         double typingTimeInSeconds = Double.parseDouble(typingTimeStr);
+        if (typingTimeInSeconds <= 0) {
+            request.setAttribute("wpm", "0");
+            request.setAttribute("error", "Typing time must be greater than zero.");
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            return;
+        }
+
         int numChars = typedText.length();
 
         // WPM = (chars / 5) / minutes
@@ -30,9 +37,8 @@ public class WPMCalculatorServlet extends HttpServlet {
         request.setAttribute("wpm", String.valueOf(wpm));
     } catch (NumberFormatException e) {
         request.setAttribute("wpm", "0");
+        request.setAttribute("error", "Invalid typing time format.");
     }
-
-    RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-    dispatcher.forward(request, response);
+    request.getRequestDispatcher("/index.jsp").forward(request, response);
 }
 }
