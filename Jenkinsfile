@@ -11,7 +11,7 @@
             string(name: 'BRANCH_NAME',defaultValue:'main',description:'Enter the branch name to be deployed')
         }
         environment{
-            git_url = https://github.com/Prateekbhatt789/Java_Maven_app.git
+            git_url = "https://github.com/Prateekbhatt789/Java_Maven_app.git"
             Image_name = "prateekbhatt789/wpm-webapp"
         }
         stages {
