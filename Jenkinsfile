@@ -21,11 +21,11 @@
                     git url: "${git_url}", branch: "${params.BRANCH_NAME}"
                 }
             }
-            stage('Build'){
-                steps{
-                    sh "mvn clean package -DskipTests"
-                }
-            }
+            // stage('Build'){
+            //     steps{
+            //         sh "mvn clean package -DskipTests"
+            //     }
+            // }
             stage('Docker Image Build'){
                 steps{
                     script{
