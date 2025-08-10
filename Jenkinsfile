@@ -44,28 +44,28 @@
                                     def versionTag = "${Image_name}:${env.BUILD_NUMBER}"
                                     def latestTag = "${Image_name}:latest"
 
-                                    sh """
-                                        docker tag ${versionTag} ${latestTag}
-                                        echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-                                        docker push ${versionTag}
-                                        docker push ${latestTag}
-                                        echo "Image Pushed: ${versionTag}"
+                                sh """
+                                    docker tag ${versionTag} ${latestTag}
+                                    echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+                                    docker push ${versionTag}
+                                    docker push ${latestTag}
+                                    echo "Image Pushed: ${versionTag}"
 
-                                        # Cleanup local images
-                                        docker rmi ${versionTag} ${latestTag} || true
-                                    """
-                            }
+                                    # Cleanup local images
+                                    docker rmi ${versionTag} ${latestTag} || true
+                                """
                         }
-                                            }   
-            }
+                    }
+                                        }   
         }
-        post{
-            success{
-                echo "Build and Docker push completed Successfully"
-            }
-            failure{
-                echo "Build failed!"
-            }
-        }
-
     }
+    post{
+        success{
+            echo "Build and Docker push completed Successfully"
+        }
+        failure{
+            echo "Build failed!"
+        }
+    }
+
+}
