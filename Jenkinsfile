@@ -1,9 +1,5 @@
     pipeline {
-        agent{
-            node{
-                label "built-in"
-            }
-        }
+        agent anu
         options { 
             buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         }
