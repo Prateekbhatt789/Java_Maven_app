@@ -29,7 +29,7 @@
             stage('Docker Image Build'){
                 steps{
                     script{
-                        def versionTag = "${Image_name}:${env.BUILD_NUMBER}"
+                        def versionTag = "${env.Image_name}:${env.BUILD_NUMBER}"
                         sh "docker build -t ${versionTag} ."
                     }
                 }
